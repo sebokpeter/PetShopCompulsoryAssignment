@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PetShop.Core.ApplicationService;
 using PetShop.Core.Entity;
 using Microsoft.AspNetCore.Http;
+using System;
 
 namespace RestAPI.Controllers
 {
@@ -55,17 +56,23 @@ namespace RestAPI.Controllers
                 return BadRequest("The pets name canot be empty!");
             }
 
-            if (_service.AddPet(pet) != null)
+            try
             {
-                string s = string.Format(string.Format("Pet created! ID: {0}", pet.ID));
+                if (_service.AddPet(pet) != null)
+                {
+                    string s = string.Format(string.Format("Pet created! ID: {0}", pet.ID));
 
-                return StatusCode(StatusCodes.Status201Created, s);
+                    return StatusCode(StatusCodes.Status201Created, s);
+                }
+                else
+                {
+                    return BadRequest("Could not add pet!");
+                }
             }
-            else
+            catch (Exception e)
             {
-                return BadRequest("Could not add pet!");
+                return BadRequest(e.Message);
             }
-
         }
 
         // PUT api/values/5

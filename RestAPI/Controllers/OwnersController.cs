@@ -28,7 +28,7 @@ namespace RestAPI.Controllers
         [HttpGet("{id}")]
         public ActionResult<Owner> Get(int id)
         {
-            if (id < 0)
+            if (id < 1)
             {
                 return BadRequest("ID cannot be negative!");
             }
@@ -91,7 +91,7 @@ namespace RestAPI.Controllers
         [HttpPut("{id}")]
         public ActionResult<Owner> Put([FromBody] Owner owner)
         {
-            if (owner.ID < 0)
+            if (owner.ID < 1)
             {
                 return BadRequest("ID cannot be negative!");
             }
@@ -109,7 +109,7 @@ namespace RestAPI.Controllers
         [HttpDelete]
         public ActionResult<Owner> Delete(int id)
         {
-            if (id < 0)
+            if (id < 1)
             {
                 return BadRequest("ID cannot be negative!");
             }
