@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using PetShop.Core.DomainService;
@@ -19,7 +20,14 @@ namespace PetShop.Core.ApplicationService.Implementation
 
         public List<Pet> GetPets()
         {
-            return _repository.ReadPets().ToList();
+            List<Pet> pets = _repository.ReadPets().ToList();
+
+            foreach (Pet p in pets)
+            {
+                p.PreviousOwner = _ownerRepository.GetOwnerByID(p.PreviousOwner.ID);
+            }
+
+            return pets;
         }
 
         public IEnumerable<Pet> ReadPets()
@@ -29,7 +37,7 @@ namespace PetShop.Core.ApplicationService.Implementation
 
         public Pet AddPet(Pet pet)
         {
-            return _repository.CreatePet(pet); // TODO: possibly add validation here
+            return _repository.CreatePet(pet); 
         }
 
         public Pet RemovePet(Pet pet)
@@ -84,7 +92,7 @@ namespace PetShop.Core.ApplicationService.Implementation
             //Check phone number validity
             if (!Regex.Match(owner.PhoneNumber, @"^(\+[0-9]{8})$").Success)
             {
-                return null;
+                throw new ArgumentException("The phone number is not valid! It must be in the following format: +dddddddd (for example: +52123789");
             }
 
             //Verify email address
@@ -92,7 +100,7 @@ namespace PetShop.Core.ApplicationService.Implementation
             if (!Regex.Match(owner.Email, @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
                 @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-0-9a-z]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$", RegexOptions.IgnoreCase).Success)
             {
-                return null;
+                throw new ArgumentException("The email address is not valid!");
             }
 
             return _ownerRepository.CreateOwner(owner);
