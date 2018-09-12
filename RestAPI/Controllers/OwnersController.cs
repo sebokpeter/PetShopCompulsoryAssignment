@@ -106,7 +106,7 @@ namespace RestAPI.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public ActionResult<Owner> Delete(int id)
         {
             if (id < 1)

@@ -29,6 +29,12 @@ namespace RestAPI.Controllers
         [HttpGet("{id}")]
         public ActionResult<Pet> Get(int id)
         {
+
+            if (id < 1)
+            {
+                return BadRequest("Negative IDs are not allowed!");
+            }
+
             try
             {
                 Pet p = _service.GetPetById(id);
@@ -45,10 +51,6 @@ namespace RestAPI.Controllers
             catch (Exception e)
             {
                 return BadRequest(e.Message);
-            }
-            if (id < 1)
-            {
-                return BadRequest("Negative IDs are not allowed!");
             }
         }
 
