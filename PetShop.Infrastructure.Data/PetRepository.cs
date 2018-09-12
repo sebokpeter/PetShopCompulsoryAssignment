@@ -35,7 +35,16 @@ namespace PetShop.Infrastructure.Data
 
         public Pet GetPetById(int id)
         {
-            return FakeDB.Pets.FirstOrDefault(p => p.ID == id);
+            return FakeDB.Pets.Select(p => new Pet() {
+                ID = p.ID,
+                Name = p.Name,
+                Type = p.Type,
+                Color = p.Color,
+                BirthDate = p.BirthDate,
+                SoldDate = p.SoldDate,
+                PreviousOwner = p.PreviousOwner,
+                Price = p.Price
+            }).FirstOrDefault(p => p.ID == id);
         }
 
         public Pet UpdatePet(Pet pet)

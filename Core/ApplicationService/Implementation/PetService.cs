@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using PetShop.Core.DomainService;
@@ -22,10 +23,10 @@ namespace PetShop.Core.ApplicationService.Implementation
         {
             List<Pet> pets = _repository.ReadPets().ToList();
 
-            foreach (Pet p in pets)
-            {
-                p.PreviousOwner = _ownerRepository.GetOwnerByID(p.PreviousOwner.ID);
-            }
+            //foreach (Pet p in pets)
+            //{
+            //    p.PreviousOwner = _ownerRepository.GetOwnerByID(p.PreviousOwner.ID);
+            //}
 
             return pets;
         }
@@ -47,7 +48,13 @@ namespace PetShop.Core.ApplicationService.Implementation
 
         public Pet GetPetById(int id)
         {
-            return _repository.GetPetById(id);
+            Pet p = _repository.GetPetById(id);
+            if (p == null)
+            {
+                throw new InvalidDataException("Could not find Pet based on ID.");
+            }
+            p.PreviousOwner = _ownerRepository.GetOwnerByID(p.PreviousOwner.ID);
+            return p;
         }
 
         public Pet UpdatePet(Pet pet)

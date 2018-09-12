@@ -29,20 +29,26 @@ namespace RestAPI.Controllers
         [HttpGet("{id}")]
         public ActionResult<Pet> Get(int id)
         {
-            if (id < 0)
+            try
+            {
+                Pet p = _service.GetPetById(id);
+
+                if (p != null)
+                {
+                    return p;
+                }
+                else
+                {
+                    return NotFound("Could not find pet!");
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            if (id < 1)
             {
                 return BadRequest("Negative IDs are not allowed!");
-            }
-
-            Pet p = _service.GetPetById(id);
-            
-            if (p != null)
-            {
-                return p;
-            }
-            else
-            {
-                return NotFound("Could not find pet!");
             }
         }
 
@@ -77,20 +83,27 @@ namespace RestAPI.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public ActionResult<Pet> Put([FromBody] Pet value)
+        public ActionResult<Pet> Put([FromBody] Pet value, int id)
         {
-            if (value.ID < 0)
+            try
             {
-                return BadRequest("Cannot delete non-existing pet!");
-            }
+                if (id < 1)
+                {
+                    return BadRequest("Cannot delete non-existing pet!");
+                }
 
-            if (_service.UpdatePet(value) != null)
-            {
-                return Ok("Pet updated");
+                if (_service.UpdatePet(value) != null)
+                {
+                    return Ok("Pet updated");
+                }
+                else
+                {
+                    return BadRequest("Cannot update pet!");
+                }
             }
-            else
+            catch (Exception e)
             {
-                return BadRequest("Cannot update pet!");
+                return BadRequest(e.Message);
             }
         }
 
@@ -98,7 +111,7 @@ namespace RestAPI.Controllers
         [HttpDelete("{id}")]
         public ActionResult<Pet> Delete(int id)
         {
-            if (id < 0)
+            if (id < 1)
             {
                 return BadRequest("Cannot update non-existing pet!");
             }

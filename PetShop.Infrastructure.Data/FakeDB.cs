@@ -46,7 +46,7 @@ namespace PetShop.Infrastructure.Data
                 BirthDate = DateTime.Now.AddMonths(-3),
                 SoldDate = DateTime.Now,
                 Color = "Brown",
-                PreviousOwner = prewOwner1,
+                PreviousOwner = new Owner { ID = 1},
                 Price = 199.9
             };
 
@@ -58,7 +58,7 @@ namespace PetShop.Infrastructure.Data
                 BirthDate = DateTime.Now.AddYears(-5),
                 SoldDate = DateTime.Now,
                 Color = "Yellow",
-                PreviousOwner = prewOwner1,
+                PreviousOwner = new Owner { ID = 1 },
                 Price = 299.9
             };
 
@@ -70,7 +70,7 @@ namespace PetShop.Infrastructure.Data
                 BirthDate = DateTime.Now.AddYears(-5),
                 SoldDate = DateTime.Now,
                 Color = "Blue",
-                PreviousOwner = prewOwner1,
+                PreviousOwner = new Owner { ID = 1 },
                 Price = 399.9
             };
 
@@ -82,7 +82,7 @@ namespace PetShop.Infrastructure.Data
                 BirthDate = DateTime.Now.AddYears(-5),
                 SoldDate = DateTime.Now,
                 Color = "Red",
-                PreviousOwner = prewOwner2,
+                PreviousOwner = new Owner { ID = 2 },
                 Price = 499.9
             };
 
@@ -94,7 +94,7 @@ namespace PetShop.Infrastructure.Data
                 BirthDate = DateTime.Now.AddYears(-5),
                 SoldDate = DateTime.Now,
                 Color = "Grey",
-                PreviousOwner = prewOwner2,
+                PreviousOwner = new Owner { ID = 2 },
                 Price = 99.9
             };
 
@@ -106,7 +106,7 @@ namespace PetShop.Infrastructure.Data
                 BirthDate = DateTime.Now.AddYears(-5),
                 SoldDate = DateTime.Now,
                 Color = "Grey",
-                PreviousOwner = prewOwner2,
+                PreviousOwner = new Owner { ID = 2 },
                 Price = 149.9
             };
 
