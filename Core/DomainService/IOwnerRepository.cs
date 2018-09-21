@@ -17,7 +17,7 @@ namespace PetShop.Core.DomainService
 
         Owner UpdateOwner(Owner owner);
 
-        Owner DeleteOwner(Owner ownerToRemove);
+        Owner DeleteOwner(int id);
 
         List<Pet> GetPetsByOwner(Owner owner);
     }

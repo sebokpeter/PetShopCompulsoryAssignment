@@ -15,7 +15,7 @@ namespace PetShop.Core.ApplicationService.Implementation
 
         public PetService(IPetRepository repo, IOwnerRepository ownerRepository)
         {
-           _repository = repo;
+            _repository = repo;
             _ownerRepository = ownerRepository;
         }
 
@@ -41,9 +41,9 @@ namespace PetShop.Core.ApplicationService.Implementation
             return _repository.CreatePet(pet); 
         }
 
-        public Pet RemovePet(Pet pet)
+        public Pet RemovePet(int id)
         {
-            return _repository.DeletePet(pet);
+            return _repository.DeletePet(id);
         }
 
         public Pet GetPetById(int id)
@@ -118,9 +118,9 @@ namespace PetShop.Core.ApplicationService.Implementation
             return _ownerRepository.UpdateOwner(owner);
         }
 
-        public Owner RemoveOwner(Owner ownerToRemove)
+        public Owner RemoveOwner(int id)
         {
-            return _ownerRepository.DeleteOwner(ownerToRemove);
+            return _ownerRepository.DeleteOwner(id);
         }
 
         public List<Pet> GetOwnersPets(Owner owner)

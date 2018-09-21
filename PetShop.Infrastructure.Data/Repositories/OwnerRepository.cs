@@ -51,8 +51,9 @@ namespace PetShop.Infrastructure.Data
             return ownerToUpdate;
         }
 
-        public Owner DeleteOwner(Owner owner)
+        public Owner DeleteOwner(int id)
         {
+            Owner owner = GetOwnerByID(id);
             List<Owner> ownerList = FakeDB.Owners.ToList();
 
             Owner ownerToRemove = ownerList.FirstOrDefault(o => o.ID == owner.ID);

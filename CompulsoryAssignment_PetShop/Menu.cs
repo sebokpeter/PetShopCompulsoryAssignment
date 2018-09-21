@@ -113,9 +113,7 @@ namespace PetShop
         {
             int id = ReadNumber("Please enter the ID of the pet you want to remove: ");
 
-            Pet petToRemove = GetPetByID(id);
-
-            if (_service.RemovePet(petToRemove) != null)
+            if (_service.RemovePet(id) != null)
             {
                 Console.WriteLine("Pet successfully removed.");
             }
@@ -250,9 +248,7 @@ namespace PetShop
         {
             int id = ReadNumber("Please enter the ID of the owner you want to remove: ");
 
-            Owner ownerToRemove = _service.GetOwnerByID(id);
-
-            if (_service.RemoveOwner(ownerToRemove) != null)
+            if (_service.RemoveOwner(id) != null)
             {
                 Console.WriteLine("Owner successfully removed.");
             }

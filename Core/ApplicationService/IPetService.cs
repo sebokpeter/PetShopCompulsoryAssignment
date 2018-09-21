@@ -13,7 +13,7 @@ namespace PetShop.Core.ApplicationService
 
         Pet AddPet(Pet pet);
 
-        Pet RemovePet(Pet pet);
+        Pet RemovePet(int id);
 
         Pet GetPetById(int id);
 
@@ -33,7 +33,7 @@ namespace PetShop.Core.ApplicationService
 
         Owner UpdateOwner(Owner owner);
 
-        Owner RemoveOwner(Owner ownerToRemove);
+        Owner RemoveOwner(int id);
 
         List<Pet> GetOwnersPets(Owner owner);
     } 

@@ -22,8 +22,9 @@ namespace PetShop.Infrastructure.Data
             return pet;
         }
 
-        public Pet DeletePet(Pet pet)
+        public Pet DeletePet(int id)
         {
+            Pet pet = GetPetById(id);
             List<Pet> petList = FakeDB.Pets.ToList();
 
             Pet petToDelete = petList.FirstOrDefault(p => p.ID == pet.ID);

@@ -4,6 +4,7 @@ using PetShop.Core.ApplicationService;
 using PetShop.Core.Entity;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Linq;
 
 namespace RestAPI.Controllers
 {
@@ -20,14 +21,22 @@ namespace RestAPI.Controllers
 
         // GET api/values
         [HttpGet]
-        public ActionResult<List<Pet>> Get()
+        public ActionResult<List<Pet>> Get(int currentPage = 1, int pageCount = 2)
         {
-            return _service.GetPets();
+            try
+            {
+                return _service.GetPets().Skip((currentPage - 1) * pageCount).Take(pageCount).ToList();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
         public ActionResult<Pet> Get(int id)
+
         {
 
             if (id < 1)
@@ -94,6 +103,11 @@ namespace RestAPI.Controllers
                     return BadRequest("Cannot delete non-existing pet!");
                 }
 
+                if (value.ID != id)
+                {
+                    return BadRequest("Parameter mismatch: ID and Pet ID are not equal!");
+                }
+
                 if (_service.UpdatePet(value) != null)
                 {
                     return Ok("Pet updated");
@@ -118,7 +132,7 @@ namespace RestAPI.Controllers
                 return BadRequest("Cannot update non-existing pet!");
             }
 
-            if (_service.RemovePet(_service.GetPetById(id)) != null)
+            if (_service.RemovePet(id) != null)
             {
                 return Ok("Pet deleted");
             }

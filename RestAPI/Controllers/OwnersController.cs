@@ -114,7 +114,7 @@ namespace RestAPI.Controllers
                 return BadRequest("ID cannot be negative!");
             }
 
-            if (_service.RemoveOwner(_service.GetOwnerByID(id)) != null)
+            if (_service.RemoveOwner(id) != null)
             {
                 return Ok("Owner deleted!");
             }
