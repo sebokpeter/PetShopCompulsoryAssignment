@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace PetShop.Infrastructure.Data
 {
-    public class PetRepository : IPetRepository
+    public class PetRepository //: //IPetRepository
     {
     
         public IEnumerable<Pet> ReadPets()

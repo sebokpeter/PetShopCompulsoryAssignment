@@ -127,5 +127,35 @@ namespace PetShop.Core.ApplicationService.Implementation
         {
             return _ownerRepository.GetPetsByOwner(owner);
         }
+
+        public List<Pet> GetFilteredPets(PetFilter filter)
+        {
+            if (filter.CurrentPage < 0 || filter.ItemsPerPage < 0)
+            {
+                throw new InvalidDataException("CurrentPage and ItemsPerPage must be higher or equal to 0");
+            }
+
+            if (((filter.CurrentPage - 1) * filter.ItemsPerPage) >= _repository.Count())
+            {
+                throw new InvalidDataException("Index out of bouns, CurrentPage is too high");
+            }
+
+            return _repository.ReadPets(filter).ToList();
+        }
+
+        public List<Owner> GetFilteredOwners(OwnerFilter filter)
+        {
+            if (filter.CurrentPage < 0 || filter.ItemsPerPage < 0)
+            {
+                throw new InvalidDataException("CurrentPage and ItemsPerPage must be higher or equal to 0");
+            }
+
+            if (((filter.CurrentPage - 1) * filter.ItemsPerPage) >= _ownerRepository.Count())
+            {
+                throw new InvalidDataException("Index out of bouns, CurrentPage is too high");
+            }
+
+            return _ownerRepository.ReadOwners(filter).ToList();
+        }
     }
 }

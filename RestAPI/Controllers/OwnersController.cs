@@ -19,29 +19,45 @@ namespace RestAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Owner>> Get()
+        public ActionResult<List<Owner>> Get([FromQuery] OwnerFilter filter)
         {
-            return _service.GetOwners();
+            try
+            {
+                return Ok(_service.GetFilteredOwners(filter));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);                
+            }
+
+            //return _service.GetOwners();
         }
 
 
         [HttpGet("{id}")]
         public ActionResult<Owner> Get(int id)
         {
-            if (id < 1)
+            try
             {
-                return BadRequest("ID cannot be negative!");
-            }
+                if (id < 1)
+                {
+                    return BadRequest("ID cannot be negative!");
+                }
 
-            Owner owner = _service.GetOwnerByID(id);
+                Owner owner = _service.GetOwnerByID(id);
 
-            if (owner != null)
-            {
-                return owner;
+                if (owner != null)
+                {
+                    return owner;
+                }
+                else
+                {
+                    return NotFound($"Owner with the ID of {id} was not found!");
+                }
             }
-            else
+            catch (Exception e)
             {
-                return NotFound($"Owner with the ID of {id} was not found!");
+                return BadRequest(e.Message);
             }
         }
 
@@ -96,31 +112,46 @@ namespace RestAPI.Controllers
                 return BadRequest("ID cannot be negative!");
             }
 
-            if (_service.UpdateOwner(owner) != null)
+            try
             {
-                return Ok("Owner updated!");
+                if (_service.UpdateOwner(owner) != null)
+                {
+                    return Ok("Owner updated!");
+                }
+                else
+                {
+                    return BadRequest("Owner could not be updated!");
+                }
             }
-            else
+            catch (Exception e)
             {
-                return BadRequest("Owner could not be updated!");
+                return BadRequest(e.Message);
             }
         }
 
         [HttpDelete("{id}")]
         public ActionResult<Owner> Delete(int id)
         {
-            if (id < 1)
+            try
             {
-                return BadRequest("ID cannot be negative!");
-            }
+                if (id < 1)
+                {
+                    return BadRequest("ID cannot be negative!");
+                }
 
-            if (_service.RemoveOwner(id) != null)
-            {
-                return Ok("Owner deleted!");
+                if (_service.RemoveOwner(id) != null)
+                {
+                    return Ok("Owner deleted!");
+                }
+                else
+                {
+                    return BadRequest("Could not delete owner!");
+                }
+
             }
-            else
+            catch (Exception e)
             {
-                return BadRequest("Could not delete owner!");
+                return BadRequest(e.Message);
             }
         }
     }

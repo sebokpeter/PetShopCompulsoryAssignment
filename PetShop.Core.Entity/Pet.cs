@@ -25,7 +25,7 @@ namespace PetShop.Core.Entity
             sb.Append(string.Format("\tBirth date: {0}\n", BirthDate.ToLongDateString()));
             sb.Append(string.Format("\tSold date: {0}\n", SoldDate.ToLongDateString()));
             sb.Append(string.Format("\tPet color: {0}\n", Color));
-            sb.Append(string.Format("\tPrevious owner ID: {0}\n", PreviousOwner.ID));
+            sb.Append(string.Format("\tPrevious owner ID: {0}\n", PreviousOwner == null ? "No owner" : PreviousOwner.ID.ToString()));
             sb.Append(string.Format("\tPrice: {0}\n", Price));
 
             return sb.ToString();

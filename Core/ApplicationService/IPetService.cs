@@ -19,6 +19,8 @@ namespace PetShop.Core.ApplicationService
 
         Pet UpdatePet(Pet pet);
 
+        List<Pet> GetFilteredPets(PetFilter filter);
+        
         List<Pet> GetPetsByType(PetType type);
 
         List<Pet> GetPetsByPrice(bool isAscending);
@@ -26,6 +28,8 @@ namespace PetShop.Core.ApplicationService
         List<Pet> GetCheapest();
 
         List<Owner> GetOwners();
+
+        List<Owner> GetFilteredOwners(OwnerFilter filter);
 
         Owner GetOwnerByID(int id);
 

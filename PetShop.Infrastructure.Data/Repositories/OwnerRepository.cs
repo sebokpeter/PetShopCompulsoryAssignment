@@ -5,7 +5,7 @@ using PetShop.Core.Entity;
 
 namespace PetShop.Infrastructure.Data
 {
-    public class OwnerRepository : IOwnerRepository
+    public class OwnerRepository //: IOwnerRepository
     {
         public IEnumerable<Owner> ReadOwners()
         {

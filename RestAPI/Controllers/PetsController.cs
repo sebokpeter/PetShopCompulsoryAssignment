@@ -21,11 +21,12 @@ namespace RestAPI.Controllers
 
         // GET api/values
         [HttpGet]
-        public ActionResult<List<Pet>> Get(int currentPage = 1, int pageCount = 2)
+        public ActionResult<List<Pet>> Get([FromQuery] PetFilter filter)
         {
             try
             {
-                return _service.GetPets().Skip((currentPage - 1) * pageCount).Take(pageCount).ToList();
+                return Ok(_service.GetFilteredPets(filter));
+                //return _service.GetPets();
             }
             catch (Exception e)
             {
@@ -36,9 +37,7 @@ namespace RestAPI.Controllers
         // GET api/values/5
         [HttpGet("{id}")]
         public ActionResult<Pet> Get(int id)
-
         {
-
             if (id < 1)
             {
                 return BadRequest("Negative IDs are not allowed!");

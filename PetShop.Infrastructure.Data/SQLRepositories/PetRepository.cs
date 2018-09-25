@@ -15,16 +15,17 @@ namespace PetShop.Infrastructure.Data.SQLRepositories
             _ctx = ctx;
         }
 
+        public int Count()
+        {
+            return _ctx.Pets.Count();
+        }
+
         public Pet CreatePet(Pet pet)
         {
-            if (pet.PreviousOwner != null)
-            {
-                pet.PreviousOwner = _ctx.Owners.FirstOrDefault(o => o.ID == pet.PreviousOwner.ID);
-            }
-
-            Pet saved = _ctx.Pets.Add(pet).Entity;
+            _ctx.Attach(pet).State = EntityState.Added;
             _ctx.SaveChanges();
-            return saved;
+
+            return pet;
         }
 
         public Pet DeletePet(int id)
@@ -42,19 +43,64 @@ namespace PetShop.Infrastructure.Data.SQLRepositories
             return _ctx.Pets.Include(p => p.PreviousOwner ).FirstOrDefault(c => c.ID == id);
         }
 
-        public IEnumerable<Pet> ReadPets()
+        public IEnumerable<Pet> ReadPets(PetFilter filter)
         {
-            return _ctx.Pets.Include(p => p.PreviousOwner);
+            if (filter == null)
+            {
+                return _ctx.Pets.Include(p => p.PreviousOwner);
+            }
+
+            List<Pet> pets = _ctx.Pets
+                .Skip((filter.CurrentPage - 1) * filter.ItemsPerPage)
+                .Take(filter.ItemsPerPage).ToList();
+
+            if (filter.OrderByDesc)
+            {
+                switch (filter.SearchField)
+                {
+                    case PetFilter.Field.Id:
+                        pets = pets.OrderByDescending(p => p.ID).ToList();
+                        break;
+                    case PetFilter.Field.Name:
+                        pets = pets.OrderByDescending(p => p.Name).ToList();
+                        break;
+                    case PetFilter.Field.Type:
+                        pets = pets.OrderByDescending(p => p.Type).ToList();
+                        break;
+                    case PetFilter.Field.Color:
+                        pets = pets.OrderByDescending(p => p.Color).ToList();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                switch (filter.SearchField)
+                {
+                    case PetFilter.Field.Id:
+                        pets = pets.OrderBy(p => p.ID).ToList();
+                        break;
+                    case PetFilter.Field.Name:
+                        pets = pets.OrderBy(p => p.Name).ToList();
+                        break;
+                    case PetFilter.Field.Type:
+                        pets = pets.OrderBy(p => p.Type).ToList();
+                        break;
+                    case PetFilter.Field.Color:
+                        pets = pets.OrderBy(p => p.Color).ToList();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return pets;
         }
 
         public Pet UpdatePet(Pet pet)
         {
-            if (pet.PreviousOwner != null)
-            {
-                pet.PreviousOwner = _ctx.Owners.FirstOrDefault(o => o.ID == pet.PreviousOwner.ID);
-            }
-
-            _ctx.Pets.Update(pet);
+            _ctx.Attach(pet).State = EntityState.Modified;
             _ctx.SaveChanges();
             return pet;
         }

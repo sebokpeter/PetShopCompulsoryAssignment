@@ -14,6 +14,11 @@ namespace PetShop.Infrastructure.Data
                 .HasOne(p => p.PreviousOwner)
                 .WithMany(o => o.Pets)
                 .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Owner>()
+                .HasMany(o => o.Pets)
+                .WithOne(p => p.PreviousOwner)
+                .OnDelete(DeleteBehavior.SetNull);
         }
 
         public DbSet<Pet> Pets { get; set; }
