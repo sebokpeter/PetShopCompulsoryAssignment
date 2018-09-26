@@ -15,22 +15,42 @@ namespace RestAPI
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-            //FakeDB.InitData();
-        }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
+
+        private IHostingEnvironment _env { get; set; }
+
+        public Startup(IHostingEnvironment env)
+        {
+            _env = env;
+            IConfigurationBuilder builder = new ConfigurationBuilder()
+                .SetBasePath(_env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{_env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+            Configuration = builder.Build();
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<PetShopContext>(
-                opt => opt.UseSqlite("Data Source=CustomerApp.db")
-                );
+            //services.AddDbContext<PetShopContext>(
+            //    opt => opt.UseSqlite("Data Source=CustomerApp.db")
+            //    );
+
+            if (_env.IsDevelopment())
+            {
+                services.AddDbContext<PetShopContext>(
+                    opt => opt.UseSqlite("Data Source = CustomerApp.db"));
+            }
+            else if(_env.IsProduction())
+            {
+                services.AddDbContext<PetShopContext>(
+                    opt => opt.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
+            }
             services.AddScoped<IPetRepository, PetShop.Infrastructure.Data.SQLRepositories.PetRepository>();
             services.AddScoped<IPetService, PetService>();
+            services.AddScoped<IOwnerService, OwnerService>();
             services.AddScoped<IOwnerRepository, PetShop.Infrastructure.Data.SQLRepositories.OwnerRepository>();
 
             services.AddMvc().AddJsonOptions(options =>
@@ -57,10 +77,15 @@ namespace RestAPI
             }
             else
             {
+                using (IServiceScope scope = app.ApplicationServices.CreateScope())
+                {
+                    PetShopContext ctx = scope.ServiceProvider.GetService<PetShopContext>();
+                    ctx.Database.EnsureCreated();
+                }
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+           // app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

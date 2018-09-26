@@ -25,6 +25,10 @@ namespace RestAPI.Controllers
         {
             try
             {
+                if (filter.CurrentPage==0 && filter.ItemsPerPage == 0 && filter.OrderByDesc == false && filter.SearchField == PetFilter.Field.Id)
+                {
+                    return Ok(_service.GetPets());
+                }
                 return Ok(_service.GetFilteredPets(filter));
                 //return _service.GetPets();
             }

@@ -5,6 +5,8 @@ using PetShop.Core.Entity;
 
 namespace PetShop.Core.ApplicationService
 {
+
+    // TODO: split up pet service and owner service
     public interface IPetService
     {
         List<Pet> GetPets();
@@ -26,18 +28,6 @@ namespace PetShop.Core.ApplicationService
         List<Pet> GetPetsByPrice(bool isAscending);
 
         List<Pet> GetCheapest();
-
-        List<Owner> GetOwners();
-
-        List<Owner> GetFilteredOwners(OwnerFilter filter);
-
-        Owner GetOwnerByID(int id);
-
-        Owner AddOwner(Owner owner);
-
-        Owner UpdateOwner(Owner owner);
-
-        Owner RemoveOwner(int id);
 
         List<Pet> GetOwnersPets(Owner owner);
     } 

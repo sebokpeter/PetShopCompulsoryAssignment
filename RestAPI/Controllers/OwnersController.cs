@@ -11,9 +11,9 @@ namespace RestAPI.Controllers
     [ApiController]
     public class OwnersController : ControllerBase
     {
-        private readonly IPetService _service;
+        private readonly IOwnerService _service;
 
-        public OwnersController(IPetService service)
+        public OwnersController(IOwnerService service)
         {
             _service = service;
         }
@@ -23,6 +23,11 @@ namespace RestAPI.Controllers
         {
             try
             {
+                if (filter.CurrentPage == 0 && filter.ItemsPerPage == 0)
+                {
+                    return Ok(_service.GetOwners());
+                }
+
                 return Ok(_service.GetFilteredOwners(filter));
             }
             catch (Exception e)
