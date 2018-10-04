@@ -1,5 +1,6 @@
 ﻿using PetShop.Core.Entity;
 using System;
+using System.Collections.Generic;
 
 namespace PetShop.Infrastructure.Data
 {
@@ -37,7 +38,7 @@ namespace PetShop.Infrastructure.Data
                 Type = PetType.Dog,
                 BirthDate = DateTime.Now.AddMonths(-3),
                 SoldDate = DateTime.Now,
-                Color = "Brown",
+                Colors = new List<Color> { },
                 PreviousOwner = prewOwner1,
                 Price = 199.9
             };
@@ -48,7 +49,7 @@ namespace PetShop.Infrastructure.Data
                 Type = PetType.Turtle,
                 BirthDate = DateTime.Now.AddYears(-5),
                 SoldDate = DateTime.Now,
-                Color = "Yellow",
+                Colors = new List<Color> { },
                 PreviousOwner = prewOwner1,
                 Price = 299.9
             };
@@ -59,7 +60,7 @@ namespace PetShop.Infrastructure.Data
                 Type = PetType.Cat,
                 BirthDate = DateTime.Now.AddYears(-5),
                 SoldDate = DateTime.Now,
-                Color = "Blue",
+                Colors = new List<Color> { },
                 PreviousOwner = prewOwner2,
                 Price = 399.9
             };
@@ -70,7 +71,7 @@ namespace PetShop.Infrastructure.Data
                 Type = PetType.Snake,
                 BirthDate = DateTime.Now.AddYears(-5),
                 SoldDate = DateTime.Now,
-                Color = "Red",
+                Colors = new List<Color> { },
                 PreviousOwner = prewOwner2,
                 Price = 499.9
             };
@@ -81,7 +82,7 @@ namespace PetShop.Infrastructure.Data
                 Type = PetType.Rat,
                 BirthDate = DateTime.Now.AddYears(-5),
                 SoldDate = DateTime.Now,
-                Color = "Grey",
+                Colors = new List<Color> { },
                 PreviousOwner = prewOwner2,
                 Price = 99.9
             };
@@ -92,7 +93,7 @@ namespace PetShop.Infrastructure.Data
                 Type = PetType.Goat,
                 BirthDate = DateTime.Now.AddYears(-5),
                 SoldDate = DateTime.Now,
-                Color = "Grey",
+                Colors = new List<Color> { },
                 PreviousOwner = prewOwner2,
                 Price = 149.9
             };
